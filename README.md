@@ -1,6 +1,11 @@
 ﻿# AjaxCrudBehavior
 Single Page CRUD operations on ActiveRecord models with controller behavior inherited AJAX actions
 
+
+NOTE: THIS FORK HAS BEEN MODIFIED to support multiple different classes/controllers for example sub-forms and tabbed forms which have different controllers for update.
+
+
+
  © 2013  [Spiros Kabasakalis](http://iws.kabasakalis.gr/) 
  
   [The MIT License (MIT)]( http://opensource.org/licenses/MIT)
