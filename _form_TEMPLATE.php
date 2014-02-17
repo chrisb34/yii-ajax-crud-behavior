@@ -10,6 +10,9 @@
  * @since 1.0
  * @license  http://opensource.org/licenses/MIT  The MIT License (MIT)
  * @version 1.0.0
+ * 
+ * Modified by Chris Backhouse
+ * Change dix wrapping the form to class='ajax-form' rather than id='...'
  */
 ?>
 
@@ -38,7 +41,7 @@ Yii::t($modelClassName,$modelClassName.' has been updated successfully.');
     <?php   echo $val_error_msg;  ?>
 </div>
 
-<div id="ajax-form" class='form'>
+<div class='form ajax-form'>
     <?php
     $formId =$modelClassName.'-form';
     $actionUrl =
