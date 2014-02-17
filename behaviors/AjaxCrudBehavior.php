@@ -11,6 +11,11 @@
  * @copyright Copyright &copy; Spiros Kabasakalis 2013
  * @license http://opensource.org/licenses/MIT  The MIT License (MIT)
  * @version 1.0.0
+ * 
+ * modified by: Chris Backhouse support@chris-backhouse.com
+ * Enable multiple ajax forms in one call ie: sub-forms, tabbed forms etc
+ * with different models and controllers
+ * 
  */
 
 class AjaxCrudBehavior extends CBehavior
@@ -60,17 +65,33 @@ class AjaxCrudBehavior extends CBehavior
         $csrf = Yii::app()->request->csrfToken;
         $controllerID = $this->owner->id;
 
-        //pass php variables to javascript
+	/**
+	 * pass php variables to javascript
+	 * make controllerID a method to return either by default the current controller
+	 * or, if specified in the form element, use the action specified in data-model
+	 * eg <form id="xxx" class="ajax-form" data-model='/posts/update'>
+	 ***/
         $ajaxcrud_behavior_js = <<<EOD
       (function ($) {
-         AjaxCrudBehavior = {
-           controllerID:'$controllerID',
-           modelClassName:'$this->modelClassName'
-              },
+	AjaxCrudBehavior = {
+           controllerID: function(e) { 
+		f=$(e).parent('form').get(0);
+		//console.log("in Controller");
+		if (typeof f == 'undefined') 
+			return '$controllerID';
+		if (typeof f.data.data-model != 'undefined')
+		    return f.data.data-model;
+		else
+		    return '$controllerID';
+	    },
+           modelClassName:'$this->modelClassName',
+	   ControllerName: function(form) {return $(form);}
+              }
          Yii_js = {
            baseUrl:'$baseUrl',
            csrf:'$csrf'
-           }
+           };
+	   
       }(jQuery));
 EOD;
 
@@ -135,6 +156,8 @@ EOD;
           //don't reload these scripts or they will mess up the page
         $this->excludeScripts();
         //Figure out if we are updating a Model or creating a new one.
+	Yii::log(print_r($_POST,true),"info","Return Ajax Form:".$this->owner->id);
+	
         if (isset($_POST['update_id'])) $model = $this->loadModel($_POST['update_id']);
         else $model = new $this->modelClassName;
         $this->owner->renderPartial($this->form_alias_path, array(
@@ -245,8 +268,7 @@ EOD;
      */
     private function excludeScripts()
     {
-
-       Yii::app()->clientScript->scriptMap['*.js'] = false;
+	Yii::app()->clientScript->scriptMap['*.js'] = false;
     }
 
 }
