@@ -8,7 +8,9 @@
  * Date: 2/4/13
  * Time: 10:39 PM
  *
- *
+ * Modified by: chris Backhouse
+ * change call to AjaxCrudBehavior.controllerID() to include the current element
+ * - AjaxCrudBehavior.controllerID(this)
  */
 
 //document ready
@@ -29,7 +31,7 @@ $(function () {
         $.delete = function (id) {
             $.ajax({
                 type:"POST",
-                url:Yii_js.baseUrl + "/" + AjaxCrudBehavior.controllerID + '/' + 'deleteAjax',
+                url:Yii_js.baseUrl + "/" + AjaxCrudBehavior.controllerID(this) + '/' + 'deleteAjax',
                 data:{"id":id, "YII_CSRF_TOKEN":Yii_js.csrf},
                 beforeSend:function () {
                     $(spinnertarget).spin("large", "white");
@@ -80,7 +82,7 @@ $(function () {
                  $(this).bind('click', function () {
                      $.ajax({
                          type:"POST",
-                         url:Yii_js.baseUrl + "/" + AjaxCrudBehavior.controllerID + '/' + 'returnDetailsView',
+                         url:Yii_js.baseUrl + "/" + AjaxCrudBehavior.controllerID(this) + '/' + 'returnDetailsView',
                          data:{"id":id, "YII_CSRF_TOKEN":Yii_js.csrf },
                          beforeSend:function () {
                              $(spinnertarget).spin("large", "white");
@@ -113,7 +115,7 @@ $(function () {
                  $(this).bind('click', function () {
                      $.ajax({
                          type:"POST",
-                         url:Yii_js.baseUrl + "/" + AjaxCrudBehavior.controllerID + '/' + 'returnAjaxForm',
+                         url:Yii_js.baseUrl + "/" + AjaxCrudBehavior.controllerID(this) + '/' + 'returnAjaxForm',
                          data:{"update_id":id, "YII_CSRF_TOKEN":Yii_js.csrf },
                          beforeSend:function () {
                              $(spinnertarget).spin("large", "white");
@@ -127,11 +129,14 @@ $(function () {
                                      "transitionOut":"elastic",
                                      "speedIn":600,
                                      "speedOut":200,
+				     "autoWidth":true,
+				     "autoDimensions":true,
                                      "overlayShow":false,
                                      "hideOnContentClick":false,
                                      "afterClose":function () {
                                          $.refresh_grid();
-                                     }//onclosed
+                                     }//onclosed,
+				    
                                  });//fancybox
                              //  console.log(data);
                          } //success
@@ -149,7 +154,7 @@ $(function () {
         $.delete_items = function (ids) {
             $.ajax({
                 type:"POST",
-                url:Yii_js.baseUrl + "/" + AjaxCrudBehavior.controllerID + '/' + 'AjaxMassDelete',
+                url:Yii_js.baseUrl + "/" + AjaxCrudBehavior.controllerID(this) + '/' + 'AjaxMassDelete',
                 data:{"ids":ids, "YII_CSRF_TOKEN":Yii_js.csrf},
                 success:function (data) {
                     res = jQuery.parseJSON(data);
@@ -219,7 +224,7 @@ $(function () {
         $('#add').bind('click', function () {
             $.ajax({
                 type:"POST",
-                url:Yii_js.baseUrl + "/" + AjaxCrudBehavior.controllerID + '/' + 'returnajaxform',
+                url:Yii_js.baseUrl + "/" + AjaxCrudBehavior.controllerID(this) + '/' + 'returnajaxform',
                 data:{"YII_CSRF_TOKEN":Yii_js.csrf},
                 beforeSend:function () {
                     $(spinnertarget).spin("large", "white");
