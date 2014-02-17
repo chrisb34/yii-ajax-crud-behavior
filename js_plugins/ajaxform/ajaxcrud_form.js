@@ -13,7 +13,9 @@
  * If you intend to include a  file field in your form,read more in the link below.
  * http://jquery.malsup.com/form/#file-upload
  *
- */
+ * Modified by Chris Backhouse
+ * Use class 'ajax-form' rather than id
+ * */
 
 $(function () {
 
@@ -33,15 +35,15 @@ $(function () {
       //  console.log(responseText);
         if (responseText.success == true) {
             $("#success-note")
-                .fadeOut(1000, "linear", function() {
-                    $(this)
-                        .fadeIn(2000, "linear")
-                }
-            );
+                //.fadeOut(1000, "linear", function() {
+                //    $(this)
+                        .fadeIn(2000, "linear");
+                //}
+            //);
              var ID=responseText.id;
-             $("#ajax-form  > form").slideToggle(500, function() {
-            $.fancybox.update();
-  });
+             //$("#ajax-form  > form").slideToggle(500, function() {
+            //$.fancybox.update();
+		//});
         }
         else {
             $("#error-note")
@@ -87,6 +89,6 @@ $(function () {
     };
 
     $.submit_crud_ajax  = function() {
-        $('#ajax-form > form').ajaxSubmit(options )
+        $('.ajax-form > form').ajaxSubmit(options )
     };
 });
